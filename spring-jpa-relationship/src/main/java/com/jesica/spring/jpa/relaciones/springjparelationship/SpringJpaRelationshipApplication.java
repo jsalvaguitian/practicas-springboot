@@ -32,8 +32,29 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// manyToOne();
 		// manyToOneFindByIdClient();
-		//OneToMany();
-		oneToManyFindById();
+		// OneToMany();
+		// oneToManyFindById();
+		removeAddress();
+	}
+
+	@Transactional
+	public void removeAddressFindById() {
+		Optional<Client> optionalClient = clientRepository.findById(2L);
+		optionalClient.ifPresent(client -> {
+			Address address1 = new Address("Avenida Rivadavia", 6000);
+			Address address2 = new Address("San Justo", 7000);
+
+			client.setAddresses(Arrays.asList(address1, address2));
+			clientRepository.save(client);
+			System.out.println(client);
+
+			Optional<Client> optionalClient2 = clientRepository.findOne(2L);
+			optionalClient2.ifPresent(c -> {
+				c.getAddresses().remove(address2);
+				clientRepository.save(c);
+				System.out.println(c);
+			});
+		});
 	}
 
 	@Transactional
@@ -49,7 +70,7 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 		clientRepository.save(client);
 
 		System.out.println(client);
-		Optional<Client>optionalClient = clientRepository.findById(3L);
+		Optional<Client> optionalClient = clientRepository.findById(3L);
 		optionalClient.ifPresent(c -> {
 			c.getAddresses().remove(address1);
 			clientRepository.save(c);
@@ -57,10 +78,10 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 		});
 	}
 
-
-/*
- * Codificando con OneToMany con datos existentes y acoplando la fk de cliente en Address
- */
+	/*
+	 * Codificando con OneToMany con datos existentes y acoplando la fk de cliente
+	 * en Address
+	 */
 	@Transactional
 	public void oneToManyFindById() {
 		Optional<Client> optionalClient = clientRepository.findById(2L);
@@ -68,13 +89,13 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 			Address address1 = new Address("Avenida Rivadavia", 6000);
 			Address address2 = new Address("San Justo", 7000);
 
-			//aqui trae solo cliente y la direccion lo va a traer de
-			//forma perezosa con tipo fetch lazy
+			// aqui trae solo cliente y la direccion lo va a traer de
+			// forma perezosa con tipo fetch lazy
 			client.setAddresses(Arrays.asList(address1, address2));
 
 			clientRepository.save(client);
 			/*
-			 * persiste 1ro al cliente y las 2 direcciones 
+			 * persiste 1ro al cliente y las 2 direcciones
 			 * va asisgna la fk a cada direccion y el client id =null
 			 * luego actualiza la bbd de la fk con el id del cliente
 			 * y emprimimos

@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,12 +27,12 @@ public class Client {
     private String lastname;
 
     //@JoinColumn(name = "client_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinTable(
         name = "tbl_clientes_to_direcciones", 
         joinColumns = @JoinColumn(name = "id_cliente"),
         inverseJoinColumns = @JoinColumn(name ="id_direcciones"),
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id_direcciones"}))//1:43
+        uniqueConstraints = @UniqueConstraint(columnNames = {"id_direcciones"}))
     private List<Address> addresses;
 
     public Client() {
