@@ -1,6 +1,8 @@
 package com.jesica.spring.jpa.relaciones.springjparelationship;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,50 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 		// manyToOneFindByIdClient();
 		// OneToMany();
 		// oneToManyFindById();
-		removeAddress();
+		//removeAddress();
+		oneToManyInvoiceBidireccional();
+
+	}
+
+	@Transactional
+	public void oneToManyInvoiceBidireccionalFindById(){
+		Optional<Client>optionalClient = clientRepository.findOne(1L);
+
+		optionalClient.ifPresent(client -> {
+			
+		Invoice invoice1 = new Invoice("compras de la casa", 5000L);
+		Invoice invoice2 = new Invoice("compras de oficina", 8000L);
+
+		//Opcion 2
+		client.addInvoice(invoice1).addInvoice(invoice2);
+		//Opcion 1
+
+		clientRepository.save(client);
+		System.out.println(client);
+
+		});
+	}
+
+	@Transactional
+	public void oneToManyInvoiceBidireccional(){
+		Client client = new Client("Fran", "Moras");
+		Invoice invoice1 = new Invoice("compras de la casa", 5000L);
+		Invoice invoice2 = new Invoice("compras de oficina", 8000L);
+
+		//Opcion 2
+		client.addInvoice(invoice1).addInvoice(invoice2);
+		//Opcion 1
+		/*
+		List<Invoice>invoices = new ArrayList<>();
+		invoices.add(invoice1);
+		invoices.add(invoice2);
+		client.setInvoices(invoices);
+		*/
+		invoice1.setCliente(client);
+		invoice2.setCliente(client);
+
+		clientRepository.save(client);
+		System.out.println(client);
 	}
 
 	@Transactional
@@ -48,7 +93,7 @@ public class SpringJpaRelationshipApplication implements CommandLineRunner {
 			clientRepository.save(client);
 			System.out.println(client);
 
-			Optional<Client> optionalClient2 = clientRepository.findOne(2L);
+			Optional<Client> optionalClient2 = clientRepository.findOneWithAddresses(2L);
 			optionalClient2.ifPresent(c -> {
 				c.getAddresses().remove(address2);
 				clientRepository.save(c);
