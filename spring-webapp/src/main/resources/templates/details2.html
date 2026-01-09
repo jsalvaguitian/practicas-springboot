@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}"></title>
 </head>
+
 <body>
     <h1>Hola Mundo Spring boot</h1>
     <ul>
@@ -13,5 +15,13 @@
         <li th:if="${user.mail}" th:text="${user.mail}"></li>
         <li th:if="${user.mail == null}" th:text="${'no tiene email'}"></li>
     </ul>
+    <a th:href="@{/list}">Ver listado</a><br>
+    <a th:href="@{'/api/params/foo?message=' + ${title}}">Ver mensaje</a> <br>
+    <a th:href="@{/api/params/foo(message='Hola que tal')}">Ver mensaje 2</a> <br>
+    <a th:href="@{/api/params/varios(text='Holis', code = 123)}">Ver varios 2 params </a> <br>
+    <a th:href="@{'/api/var/path/' + ${title}}">Ver var path variable</a> <br>
+    <a th:href="@{'/api/var/path/' + 'Hola enero'}">Ver path 2</a> <br>
+
 </body>
+
 </html>

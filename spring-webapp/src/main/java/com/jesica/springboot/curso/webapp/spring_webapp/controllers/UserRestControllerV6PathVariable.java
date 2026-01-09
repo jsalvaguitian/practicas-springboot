@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ public class UserRestControllerV6PathVariable {
     @Value("${config.code}")
     private Integer code;
 
-    @Value("#{'${config.listOfValues}'.toUppercase().split(',')}")//mas manual en comparacion listOfValue
+    @Value("#{'${config.listOfValues}'.toUpperCase().split(',')}")//mas manual en comparacion listOfValue
     private List<String> valueList;
 
     @Value("#{'${config.listOfValues}'.toUpperCase()}")//se convierte en un string en mayuscula
@@ -47,12 +49,19 @@ public class UserRestControllerV6PathVariable {
     @Value("#{${config.valuesMap}.price}")
     private Long price;
 
+    @Autowired
+    private Environment environment;
+
     @GetMapping("/values")
     public Map<String, Object> values(@Value("${config.message}") String message){
         Map<String,Object> json = new HashMap<>();
         json.put("username", username);
         json.put("code", code);
-        json.put("message", message);
+        json.put("message", message); //llega por parametro por value
+        json.put("message2", environment.getProperty("config.message")); //llega por environment
+        json.put("code2", environment.getProperty("config.code"));//llega por environment pero el codigo en string
+        json.put("codeInteger", Integer.valueOf(environment.getProperty("config.code"))); //llega por environment pero lo convierto a integer
+        json.put("codeLong", environment.getProperty("config.code", Long.class)); //le envio el tipo de dato que quiero que me devuelva
         json.put("listOfValues", listOfValues);
         json.put("valueList", valueList);
         json.put("valueString", valueString);
@@ -63,9 +72,9 @@ public class UserRestControllerV6PathVariable {
     }
 
     @GetMapping("/path/{message}")
-    public ParamDto path(@PathVariable String menssaege){
+    public ParamDto path(@PathVariable String message){
         ParamDto param = new ParamDto();
-        param.setMessage(menssaege);
+        param.setMessage(message);
         return param;
     }
 
