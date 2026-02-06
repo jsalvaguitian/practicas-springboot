@@ -3,8 +3,12 @@ package com.jesi.springboot.di.app.springboot_di.repositories;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.jesi.springboot.di.app.springboot_di.models.Product;
 
+//@Component
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {  
     private List<Product> data;
 
