@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.jesi.springboot.di.app.springboot_di.models.Product;
 
 //@Component
-@Repository
+@Repository("productList") // se le asigna un nombre al componente para poder usarlo en la inyeccion de dependencia
 public class ProductRepositoryImpl implements ProductRepository {  
     private List<Product> data;
 
