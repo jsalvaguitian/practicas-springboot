@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Vestido rojo",
+        "price": 500
+    },
+    {
+        "id": 2,
+        "name": "Remera Oasis",
+        "price": 110
+    },
+    {
+        "id": 3,
+        "name": "Zapato stiletto",
+        "price": 800
+    },
+    {
+        "id": 4,
+        "name": "Pantalon negro'",
+        "price": 213
+    }
+]

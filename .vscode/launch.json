@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringbootDiApplication<springboot-di>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jesi.springboot.di.app.springboot_di.SpringbootDiApplication",
+            "projectName": "springboot-di",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
