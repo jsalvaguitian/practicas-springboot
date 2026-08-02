@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SpringExcepcionesApplication",
+            "request": "launch",
+            "mainClass": "com.jesi.curso.spring.excepciones.spring_excepciones.SpringExcepcionesApplication",
+            "projectName": "spring-excepciones"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-SpringbootDiApplication<springboot-di>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
