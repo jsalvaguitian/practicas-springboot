@@ -24,4 +24,9 @@ public class AppController {
         return Collections.singletonMap("message", "handler test2 del controlador AppController");  
     }    
 
+    @GetMapping("test3")
+    public Map<String, String> test3(){
+        return Collections.singletonMap("message", "handler test3 del controlador AppController");  
+    } 
+
 }

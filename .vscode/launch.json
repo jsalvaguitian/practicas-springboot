@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SpringInterceptorApplication",
+            "request": "launch",
+            "mainClass": "com.jesi.curso.spring.interceptors.spring_interceptor.SpringInterceptorApplication",
+            "projectName": "spring-interceptor"
+        },
+        {
+            "type": "java",
             "name": "SpringExcepcionesApplication",
             "request": "launch",
             "mainClass": "com.jesi.curso.spring.excepciones.spring_excepciones.SpringExcepcionesApplication",
