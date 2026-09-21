@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jesica.curso.springboot.app.restful.springboot_crud.entities.Product;
 import com.jesica.curso.springboot.app.restful.springboot_crud.services.ProductService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -43,22 +45,26 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
         Product productNew = productService.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(productNew);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@RequestBody Product product, @PathVariable Long id) {
-        product.setId(id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
+    public ResponseEntity<Product> update(@Valid @RequestBody Product product, @PathVariable Long id) {
+
+        Product productSearched = productService.update(id, product);
+        if(productSearched!=null){
+             return ResponseEntity.status(HttpStatus.CREATED).body(productSearched);
+        }
+        return ResponseEntity.notFound().build();
+       
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Product product = new Product();
-        product.setId(id);
-        Product productDeleted = productService.delete(product);
+        
+        Product productDeleted = productService.delete(id);
         if (productDeleted != null) {
             return ResponseEntity.ok(productDeleted);
         }

@@ -36,9 +36,21 @@ public class ProductServiceImpl implements ProductService {
         return repository.save(product);
     }
 
+    @Override 
+    public Product update(Long id, Product product) {
+        Product productSearched = repository.findById(id).orElse(null);
+        if (productSearched != null) {
+            productSearched.setName(product.getName());
+            productSearched.setPrice(product.getPrice());
+            productSearched.setDescription(product.getDescription());
+            return repository.save(productSearched);
+        }
+        return null;
+    }
+
     @Override
-    public Product delete(Product product) {
-        Product productSearched = repository.findById(product.getId()).orElse(null);
+    public Product delete(Long id) {
+        Product productSearched = repository.findById(id).orElse(null);
         if (productSearched != null) {
             repository.delete(productSearched);
         }

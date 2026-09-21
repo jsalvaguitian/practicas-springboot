@@ -12,7 +12,9 @@ public interface ProductService{
 
     Product save(Product product);
 
-    Product delete(Product product);
+    Product update(Long id, Product product);
+
+    Product delete(Long id);
     
 
 }
