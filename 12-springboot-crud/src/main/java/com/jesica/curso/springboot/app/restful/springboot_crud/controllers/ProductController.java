@@ -8,10 +8,13 @@ import com.jesica.curso.springboot.app.restful.springboot_crud.services.ProductS
 
 import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,13 +48,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+    public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
+        if (result.hasErrors()) {
+            return validation(result);
+        }
         Product productNew = productService.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(productNew);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@Valid @RequestBody Product product, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
+
+        if (result.hasErrors()) {
+            return validation(result);
+        }
 
         Product productSearched = productService.update(id, product);
         if(productSearched!=null){
@@ -61,6 +71,20 @@ public class ProductController {
        
     }
 
+    private ResponseEntity<?> validation(BindingResult result) {
+        Map<String, String> error = new HashMap<>();
+        result.getFieldErrors().forEach(err -> {
+            error.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
+        });
+        
+
+        //opcion 1
+        return ResponseEntity.badRequest().body(error);
+
+        //opcion 2
+        //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         
@@ -70,6 +94,8 @@ public class ProductController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    
         
     
 

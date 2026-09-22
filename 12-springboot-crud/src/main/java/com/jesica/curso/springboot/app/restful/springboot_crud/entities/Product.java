@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,7 +36,8 @@ public class Product {
     @NotNull(message = "El precio no puede ser nulo")
     private Integer price;
 
-    @NotEmpty (message = "La descripción no puede estar vacía")
+    //@NotEmpty (message = "La descripción no puede estar vacía")
+    @NotBlank (message = "La descripción no puede estar vacía") 
     private String description;
 
 
