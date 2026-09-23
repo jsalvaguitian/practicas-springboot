@@ -28,16 +28,17 @@ public class Product {
     private Long id;
 
     //jejej como c# xD
-    @NotEmpty(message = "El nombre no puede estar vacío")
+    //@NotEmpty(message = "El nombre no puede estar vacío")
+    @NotEmpty (message = "{NotEmpty.product.name}")
     @Size(min = 4, max = 20, message = "El nombre debe tener entre 4 y 20 caracteres")
     private String name;
 
-    @Min(value = 500, message = "El precio debe ser mayor a 500")
-    @NotNull(message = "El precio no puede ser nulo")
+    @Min(value = 500, message = "{Min.product.price}")
+    @NotNull(message = "{NotNull.product.price}")
     private Integer price;
 
     //@NotEmpty (message = "La descripción no puede estar vacía")
-    @NotBlank (message = "La descripción no puede estar vacía") 
+    @NotBlank (message = "{NotBlank.product.description}") 
     private String description;
 
 
