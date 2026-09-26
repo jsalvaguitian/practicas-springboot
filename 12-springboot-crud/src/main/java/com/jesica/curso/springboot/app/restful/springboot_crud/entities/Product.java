@@ -1,5 +1,6 @@
 package com.jesica.curso.springboot.app.restful.springboot_crud.entities;
 
+import com.jesica.curso.springboot.app.restful.springboot_crud.validation.IsExistsDb;
 import com.jesica.curso.springboot.app.restful.springboot_crud.validation.IsRequired;
 
 import jakarta.persistence.Entity;
@@ -47,6 +48,11 @@ public class Product {
     @IsRequired 
     private String description;
 
+    //
+    @IsExistsDb 
+    private String sku;
+
+    
 
     public Long getId() {
         return id;
@@ -71,6 +77,12 @@ public class Product {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getSku() {
+        return sku;
+    }
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
     

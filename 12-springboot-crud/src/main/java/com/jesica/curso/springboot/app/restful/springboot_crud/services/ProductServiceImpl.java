@@ -40,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     public Product update(Long id, Product product) {
         Product productSearched = repository.findById(id).orElse(null);
         if (productSearched != null) {
+            productSearched.setSku(product.getSku());
             productSearched.setName(product.getName());
             productSearched.setPrice(product.getPrice());
             productSearched.setDescription(product.getDescription());
@@ -56,5 +57,11 @@ public class ProductServiceImpl implements ProductService {
         }
         return productSearched;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsBySku(String sku) {
+        return repository.existsBySku(sku);
+     }
 
 }
