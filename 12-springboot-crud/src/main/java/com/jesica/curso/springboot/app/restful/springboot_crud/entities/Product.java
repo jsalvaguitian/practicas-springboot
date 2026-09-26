@@ -1,5 +1,7 @@
 package com.jesica.curso.springboot.app.restful.springboot_crud.entities;
 
+import com.jesica.curso.springboot.app.restful.springboot_crud.validation.IsRequired;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +31,9 @@ public class Product {
 
     //jejej como c# xD
     //@NotEmpty(message = "El nombre no puede estar vacío")
-    @NotEmpty (message = "{NotEmpty.product.name}")
+    //@NotEmpty (message = "{NotEmpty.product.name}")
+    //Se aplica anotacion personalizada
+    @IsRequired(message = "{IsRequired.product.name}")
     @Size(min = 4, max = 20, message = "El nombre debe tener entre 4 y 20 caracteres")
     private String name;
 
@@ -38,7 +42,9 @@ public class Product {
     private Integer price;
 
     //@NotEmpty (message = "La descripción no puede estar vacía")
-    @NotBlank (message = "{NotBlank.product.description}") 
+    //@NotBlank (message = "{NotBlank.product.description}") 
+    //Probando anotacion personalizada
+    @IsRequired 
     private String description;
 
 

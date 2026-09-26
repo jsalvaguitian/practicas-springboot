@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductController {
 
     private final ProductService productService;
-
     private final ProductValidation validation;
 
     public ProductController(ProductService productService, ProductValidation productValidation) {
@@ -54,7 +53,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
-        validation.validate(product, result);
+       // validation.validate(product, result);
         if (result.hasErrors()) {
             return validation(result);
         }
@@ -64,7 +63,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
-        validation.validate(product, result);
+        //validation.validate(product, result); lo comento porque practicare en usar anotaciones personalizadas
 
         if (result.hasErrors()) {
             return validation(result);
@@ -84,7 +83,6 @@ public class ProductController {
             error.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
         });
         
-
         //opcion 1
         return ResponseEntity.badRequest().body(error);
 
