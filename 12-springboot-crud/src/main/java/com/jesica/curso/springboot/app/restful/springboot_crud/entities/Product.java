@@ -1,6 +1,5 @@
 package com.jesica.curso.springboot.app.restful.springboot_crud.entities;
 
-import com.jesica.curso.springboot.app.restful.springboot_crud.validation.IsExistsDb;
 import com.jesica.curso.springboot.app.restful.springboot_crud.validation.IsRequired;
 
 import jakarta.persistence.Entity;
@@ -48,8 +47,8 @@ public class Product {
     @IsRequired 
     private String description;
 
-    //
-    @IsExistsDb 
+    
+    @IsRequired 
     private String sku;
 
     
