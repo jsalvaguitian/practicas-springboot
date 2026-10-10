@@ -13,6 +13,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity 
 @Table(name = "users")
@@ -23,8 +25,11 @@ public class User {
     private Long id;
 
     @Column (unique = true)
+    @NotBlank 
+    @Size(min = 4, max = 12)
     private String username;
 
+    @NotBlank 
     private String password;
 
     @ManyToMany 
@@ -39,6 +44,7 @@ public class User {
     @Transient 
     private boolean admin;//este campo no se guarda en la base de datos
 
+    private boolean enabled;
     
     public Long getId() {
         return id;
@@ -78,6 +84,14 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     
