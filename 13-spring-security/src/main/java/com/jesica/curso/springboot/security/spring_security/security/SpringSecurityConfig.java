@@ -1,13 +1,19 @@
 package com.jesica.curso.springboot.security.spring_security.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.jesica.curso.springboot.security.spring_security.security.filter.JwtAuthenticationFilter;
+import com.jesica.curso.springboot.security.spring_security.security.filter.JwtValidationFilter;
 
 @Configuration 
 public class SpringSecurityConfig {
@@ -15,6 +21,18 @@ public class SpringSecurityConfig {
     //Como quiero que se devuelva un componente string con referencia 
     // de BCryptPasswordEncoder, lo defino como un Bean para que Spring
     //  lo gestione y pueda inyectarlo en otras clases
+
+    private final  AuthenticationConfiguration authenticationConfiguration;
+
+    SpringSecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+        this.authenticationConfiguration = authenticationConfiguration;
+    }
+
+
+    @Bean 
+    AuthenticationManager authenticationManager() throws Exception{
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean    
     PasswordEncoder passwordEncoder() {
@@ -28,6 +46,8 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll() 
                 //permitir el registro como publico pero no permitir el registro de un admin
                 .anyRequest().authenticated())
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtValidationFilter(authenticationManager()))
                 .csrf(config -> config.disable())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();

@@ -8,11 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jesica.curso.springboot.security.spring_security.entities.User;
 import com.jesica.curso.springboot.security.spring_security.repositories.UserRepository;
 
+@Service
 public class JpaUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
