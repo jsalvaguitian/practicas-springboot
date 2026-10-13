@@ -15,6 +15,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,14 @@ public class ProductController {
         this.validation = productValidation;   
     }
 
-    @GetMapping
+    @GetMapping //opcion 2 implementacion de reglas de seguridad por anotaciones
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Product> list() {
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Product> view(@PathVariable Long id) {
         Product product = productService.findById(id);
         if (product != null) {
@@ -51,6 +54,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result) {
        // validation.validate(product, result);
         if (result.hasErrors()) {
@@ -61,6 +65,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") 
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id) {
         //validation.validate(product, result); lo comento porque practicare en usar anotaciones personalizadas
 
@@ -90,6 +95,7 @@ public class ProductController {
     }
     
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         
         Product productDeleted = productService.delete(id);

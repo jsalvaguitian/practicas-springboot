@@ -6,7 +6,9 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import com.jesica.curso.springboot.security.spring_security.services.UserService
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins="https://www.mifrontend.com.ar", originPatterns = "*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -33,6 +36,7 @@ public class UserController {
         return userService.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')") //Es lo mismo que hacer esto es SpringSecurityConfig .requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasFieldErrors()) {
